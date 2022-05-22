@@ -21,8 +21,15 @@ public class BasePage {
     @FindBy(xpath = "//input[@id='number']")
     private WebElement inputField;
 
-    @FindBy(css = "#resultDiv")
+    @FindBy(xpath = "//p[@id='resultDiv']")
     private WebElement outputField;
+
+    @FindBy(css = "[href='/privacy']")
+    private WebElement termsLink;
+
+    @FindBy(css = "[href='/terms']")
+    private WebElement privacyLink;
+
 
     private WebDriver driver;
     private static final String BASE_URL = "http://qainterview.pythonanywhere.com";
@@ -37,13 +44,28 @@ public class BasePage {
         return new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(pageTitle)).isDisplayed();
     }
 
-    public BasePage calculateFactorial(String value) {
-        inputField.sendKeys(value);
-        return this;
+    public int getIntResult() {
+        calculateButton.click();
+        String[] fullValue = outputField.getText().split(":");
+        int numberValue = Integer.parseInt(fullValue[1]);
+        return numberValue;
     }
 
-    public String getResult() {
+    public String getStringResult() {
         calculateButton.click();
-        return outputField.getText();
+        String[] fullValue = outputField.getText().split(":");
+        String strValue = fullValue[1];
+        return strValue;
+    }
+
+    public void calculateNumbersFactorial(int valueNumber) {
+        inputField.sendKeys(""+valueNumber);
+        calculateButton.click();
+    }
+
+    public boolean calculateWordsFactorial(String value) {
+        inputField.sendKeys(value);
+        calculateButton.click();
+        return inputField.getText().equals("Please enter an integer");
     }
 }
