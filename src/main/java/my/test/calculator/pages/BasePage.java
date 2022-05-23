@@ -30,6 +30,9 @@ public class BasePage {
     @FindBy(css = "[href='/terms']")
     private WebElement privacyLink;
 
+    @FindBy(css = ".row-fluid > p:nth-of-type(2) > a")
+    private  WebElement servicesLink;
+
 
     private WebDriver driver;
     private static final String BASE_URL = "http://qainterview.pythonanywhere.com";
